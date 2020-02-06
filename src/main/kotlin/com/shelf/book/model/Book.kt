@@ -10,7 +10,7 @@ import javax.persistence.Id
 @Entity
 class Book (
         @Id @GeneratedValue(strategy = GenerationType.AUTO)
-        val id: Long,
+        val isbn: Long,
         val author: String,
         val title: String,
         val publishedAt: LocalDateTime,
