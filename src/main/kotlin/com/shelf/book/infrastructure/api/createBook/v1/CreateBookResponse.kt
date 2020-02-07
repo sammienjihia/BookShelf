@@ -5,13 +5,13 @@ import java.time.LocalDateTime
 
 data class CreateBookResponse(
         @JsonProperty("author")
-        val author: String,
+        val author: String? = null,
         @JsonProperty("title")
-        val title: String,
+        val title: String? = null,
         @JsonProperty("publishedAt")
-        val publishedAt: LocalDateTime,
+        val publishedAt: LocalDateTime? = null,
         @JsonProperty("synopsis")
-        val synopsis: String,
+        val synopsis: String? = null,
         @JsonProperty("created")
         val created: Boolean
 )
