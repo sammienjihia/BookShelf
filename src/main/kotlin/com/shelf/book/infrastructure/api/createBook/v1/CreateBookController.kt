@@ -23,11 +23,11 @@ class CreateBookController {
     fun createBook(@RequestBody createBookRequest: CreateBookRequest): ResponseEntity<CreateBookResponse>{
         val dataMapper = GenericDataMapper
 
-        val createdBookResponse: CreateBookResponse = try {
+        try {
             val createBookDetails = dataMapper.map(createBookRequest, Book::class.java)
             val createdBook = this.createBookService.createBook(createBookDetails)
 
-            dataMapper.map(createdBook, CreateBookResponse::class.java)
+            val createdBookResponseBody = dataMapper.map(createdBook, CreateBookResponse::class.java)
             // if the above does not work then use
 //            val createdBookResponse = CreateBookResponse(
 //                    author = createdBook.author!!,
@@ -36,14 +36,13 @@ class CreateBookController {
 //                    publishedAt = createdBook.publishedAt!!,
 //                    created = true
 //            )
+            return ResponseEntity(createdBookResponseBody, HttpStatus.CREATED)
         }catch (ex: Exception){
-            CreateBookResponse(
+            val createdBookResponseBody = CreateBookResponse(
                     created = false
             )
+            return ResponseEntity(createdBookResponseBody, HttpStatus.BAD_REQUEST)
         }
-        return ResponseEntity(
-                createdBookResponse,
-                HttpStatus.OK
-        )
+
     }
 }
