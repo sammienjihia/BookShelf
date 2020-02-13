@@ -1,0 +1,15 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .
+    container_name: book_app
+    volumes:
+      - .:/usr/app
+    env_file:
+      - compose.env
+
+  db:
+    image: postgres
+    ports:
+      - "5432"
