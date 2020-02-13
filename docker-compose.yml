@@ -6,6 +6,8 @@ services:
     container_name: book_app
     volumes:
       - .:/usr/app
+    ports:
+      - "8080:8080"
     env_file:
       - compose.env
 
