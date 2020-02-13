@@ -15,7 +15,7 @@ import java.time.LocalDateTime
 
 @RunWith(SpringRunner::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class CreateBookControllerIntegrationTest{
+class CreateBookControllerIntegrationTest:AbstractIntegrationTest(){
 
     @Autowired
     lateinit var testRestTemplate: TestRestTemplate
