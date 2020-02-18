@@ -7,18 +7,18 @@ WORKDIR $APP_HOME
 
 # Step 1: Download and install dependencies
 
-ADD pom.xml /$APP_HOME
+ADD pom.xml .
 
 RUN mvn verify clean --fail-never
 
 # Build application
 
-COPY . $APP_HOME
+COPY . .
 
 RUN mvn clean install -DskipTests
 
+#ADD ./target/book-0.0.1-SNAPSHOT.jar .
+
 EXPOSE 8080
 
-ADD ./target/book-0.0.1-SNAPSHOT.jar /artefact/
-
-ENTRYPOINT ["java", "-jar", "/artefact/book-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "target/book-0.0.1-SNAPSHOT.jar"]

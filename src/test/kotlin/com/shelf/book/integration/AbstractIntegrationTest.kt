@@ -6,21 +6,22 @@ import org.testcontainers.containers.GenericContainer
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.containers.wait.strategy.LogMessageWaitStrategy
 import java.time.Duration
-import java.util.concurrent.TimeUnit
 
 @SpringBootTest(classes = [BookApplication::class])
-abstract class AbstractIntegrationTest{
+class AbstractIntegrationTest{
 
     companion object{
 
-        private val postgreSQLPort = 5433
+        private val postgreSQLPort = 5432
 
         private val postgreSQLImage = "postgres:11.1"
 
-        private val postgreSQLDB = KPostgresContainer(postgreSQLImage).withDatabaseName("foo")
-                .withUsername("bar")
-                .withPassword("baz")
-                .withExposedPorts(5432).waitingFor(LogMessageWaitStrategy()
+        // withEnv sets the containers environment
+        private val postgreSQLDB = KGenericContainer(postgreSQLImage)
+                .withEnv("POSTGRES_USER","postgres")
+                .withEnv("POSTGRES_PASSWORD","postgres")
+                .withEnv("POSTGRES_DB","postgres")
+                .withExposedPorts(postgreSQLPort).waitingFor(LogMessageWaitStrategy()
                         .withRegEx(".*database system is ready to accept connections.*\\s")
                         .withTimes(2)
                         .withStartupTimeout(Duration.ofSeconds(30L)))
@@ -29,13 +30,17 @@ abstract class AbstractIntegrationTest{
 
     init {
         startPostgreSQLDB()
+        System.setProperty("DB_HOST", "localhost")
+        System.setProperty("DB_PORT", postgreSQLDB.getMappedPort(postgreSQLPort).toString())
+
     }
 
     final fun startPostgreSQLDB(){
         postgreSQLDB.start()
+//        System.setProperties()
 //        val serverUrl = "remote:"+ postgreSQLDB.containerIpAddress + postgreSQLDB.getMappedPort(postgreSQLPort)
 
     }
 }
 
-class KPostgresContainer(imageName: String) : PostgreSQLContainer<KPostgresContainer>(imageName)
+class KGenericContainer(imageName: String) : GenericContainer<KGenericContainer>(imageName)

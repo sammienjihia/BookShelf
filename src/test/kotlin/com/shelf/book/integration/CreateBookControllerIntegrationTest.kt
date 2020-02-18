@@ -13,9 +13,9 @@ import org.springframework.http.RequestEntity
 import java.net.URI
 import java.time.LocalDateTime
 
-@RunWith(SpringRunner::class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class CreateBookControllerIntegrationTest:AbstractIntegrationTest(){
+@RunWith(SpringRunner::class) // Loads the application context
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT) // Starts the application container
+class CreateBookControllerIntegrationTest: AbstractIntegrationTest() {
 
     @Autowired
     lateinit var testRestTemplate: TestRestTemplate
